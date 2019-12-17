@@ -46,7 +46,7 @@ var xx = 0.0;
 var yy = 0.0;
 var zz = 0.0;
 var tx = -2.5;
-var ty = -1.5;
+var ty = -1.0;
 var tz = -12.0;
 var ss = 8.0;
 var STEPS = 122.0;
@@ -251,7 +251,7 @@ void main(void){texUV=aTextUV;waveTimerShade=waveTimer;gl_Position=uPMatrix*uMVM
       <br>
       X<input value="-2.5" min="-8" max="8" step="0.25" type="range" onchange="tx=0.000001+parseFloat(this.value);draw();">
       <br>
-      Y<input value="-1.5" type="range" max="8" min="-8" step="0.25" onload="this.value=ty;" style="width: 100px;" onchange="ty=0.000001+parseFloat(this.value);draw();">
+      Y<input value="-1" type="range" max="8" min="-8" step="0.25" onload="this.value=ty;" style="width: 100px;" onchange="ty=0.000001+parseFloat(this.value);draw();">
       <br>
       Z<input value="-12.0" min="-65" max="-5" step=".25" style="width: 100px;" type="range" onchange="tz=0.000001+parseFloat(this.value);draw();">
     </div>
