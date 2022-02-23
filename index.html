@@ -87,7 +87,7 @@ var fragmentShaderSource = "precision mediump float;\n" +
     "uniform sampler2D mask;\n" +
     "varying lowp vec2 texUV;\n" +
     "varying lowp vec2 waveTimerShade;\n" +
-"void main(void){vec4 tmask=texture2D(mask,texUV);vec4 texture=texture2D(img,texUV);gl_FragColor=vec4(texture.r+tmask.r,texture.g+tmask.g,texture.b+tmask.b,texture.a+tmask.a);}";
+"void main(void){vec4 tmask=texture2D(mask,texUV);vec4 texture=texture2D(img,texUV);gl_FragColor=vec4(texture.r*tmask.r,texture.g*tmask.g,texture.b*tmask.b,texture.a*tmask.a);}";
 var vertexShaderSourceIndex=3;
 var vertexShaderSource = [
 "#define XRATIO 4.0\n"+
@@ -175,7 +175,7 @@ if(videoMask!=null){
     loadGeom();
     loadTexture();
     initShaders();
-	  setTimeout(draw,5000);
+	  draw();
 }
 
 function draw() {
