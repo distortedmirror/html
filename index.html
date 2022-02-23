@@ -90,7 +90,7 @@ var fragmentShaderSource = "precision mediump float;\n" +
     "varying lowp vec2 waveTimerShade;\n" +
 "void main(void){vec4 tmask=texture2D(mask,texUV);vec4 sgmask=texture2D(sunglasses,texUV);vec4 texture=texture2D(img,texUV);"+
     "vec4 tex=vec4(texture.r-tmask.r,texture.g-tmask.g,texture.b-tmask.b,texture.a-tmask.a);"+
-    "gl_FragColor=vec4(tex.r*(1-sgmask.a)+sgmask.a*sgmask.r,texture.g*(1-sgmask.a)+sgmask.a*sgmask.g,texture.b*(1-sgmask.a)+sgmask.a*sgmask.b,1.0);}";
+    "gl_FragColor=vec4(tex.r+sgmask.r,tex.g+sgmask.g,tex.b+sgmask.b,tex.a+sgmask.a);}";
 var vertexShaderSourceIndex=3;
 var vertexShaderSource = [
 "#define XRATIO 4.0\n"+
