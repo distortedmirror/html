@@ -39,6 +39,8 @@ if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({video:true}).
         then(
 	    function(stream){
+	  imgWave = document.getElementById("videoRendered");
+	  imgMask = document.getElementById("imgwavemask");
 		imgWave.srcObject = stream;
 		imgWave.play();                   
 	    }).catch(function(err){debugger;console.error(err);});
