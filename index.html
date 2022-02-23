@@ -33,14 +33,22 @@ var textureWave = null;
 var textureMask = null;
 var fragmentShader = null;
 var imgWave = document.getElementById("videoRendered");
-var imgMask = document.getElementById("imgwavemask");
+var imgMask = null;
+var videoMask=document.getElementById("imgwavemask");
+  canvas = document.createElement("canvas");
+  canvas.width = 1024;
+    canvas.height = 1024
+
+    canvas.getContext('2d').drawImage(videoMask, 0, 0, canvas.width, canvas.height);
+
+    imgMask = new Image()
+    imgMask.src = canvas.toDataURL();
 canvas = document.getElementById("canvasMain");
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({video:true}).
         then(
 	    function(stream){
 	  imgWave = document.getElementById("videoRendered");
-	  imgMask = document.getElementById("imgwavemask");
 		imgWave.srcObject = stream;
 		imgWave.play();                   
 	    }).catch(function(err){debugger;console.error(err);});
@@ -151,7 +159,17 @@ setInterval(function(){vertexShaderSourceIndex=(vertexShaderSourceIndex+1)%4;fra
     try { gl = canvas.getContext("webgl"); } catch (e) { alert(msg); }
     gl.viewport(0, 0, canvas.width, canvas.height);
     imgWave = document.getElementById("videoRendered");
-    imgMask = document.getElementById("imgwavemask");
+    imgMask = null;
+var videoMask=document.getElementById("imgwavemask");
+  var canvas = document.createElement("canvas");
+  canvas.width = 1024;
+    canvas.height = 1024
+
+    canvas.getContext('2d').drawImage(videoMask, 0, 0, canvas.width, canvas.height);
+
+    imgMask = new Image()
+    imgMask.src = canvas.toDataURL();
+
     loadGeom();
     loadTexture();
     initShaders();
