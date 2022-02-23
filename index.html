@@ -181,7 +181,7 @@ if(videoMask!=null){
 setInterval(function(){
 var ximgwavemask=document.getElementById("Ximgwavemask");
 var d=new Date();
-var strd=(d.getHours()+':'+ d.getMinutes()+':'+( d.getSeconds()<=9?"0"+d.getSeconds():d.getSeconds()));
+var strd=(d.getHours()+':'+( d.getMinutes()<=9?"0"+d.getMinutes():d.getMinutes())+':'+( d.getSeconds()<=9?"0"+d.getSeconds():d.getSeconds()));
 var strsvg=`<?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> 
 <svg xmlns="http://www.w3.org/2000/svg"><text x="8" y="39px" font-size="36px">`+strd+`</text></svg> `;
