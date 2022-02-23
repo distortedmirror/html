@@ -29,10 +29,12 @@ var uvArray;
 var triangles3d = null;
 var textureWave = null;
 var textureMask = null;
+var textureSunglasses=null;
 var fragmentShader = null;
 var imgWave = document.getElementById("videoRendered");
 var imgMask = null;
 var videoMask=document.getElementById("imgwavemask");
+var imgSunglasses = document.getElementById("Ximgsunglasses");
   canvas = document.createElement("canvas");
   canvas.width = 1024;
     canvas.height = 1024
@@ -83,9 +85,12 @@ projectionMatrix = new Float32Array(
 var fragmentShaderSource = "precision mediump float;\n" +
     "uniform sampler2D img;\n" +
     "uniform sampler2D mask;\n" +
+     "uniform sampler2D sunglasses;\n" +
     "varying lowp vec2 texUV;\n" +
     "varying lowp vec2 waveTimerShade;\n" +
-"void main(void){vec4 tmask=texture2D(mask,texUV);vec4 texture=texture2D(img,texUV);gl_FragColor=vec4(texture.r-tmask.r,texture.g-tmask.g,texture.b-tmask.b,texture.a-tmask.a);}";
+"void main(void){vec4 tmask=texture2D(mask,texUV);vec4 sgmask=texture2D(sunglasses,texUV);vec4 texture=texture2D(img,texUV);"+
+    "vec4 tex=vec4(texture.r-tmask.r,texture.g-tmask.g,texture.b-tmask.b,texture.a-tmask.a);"+
+    "gl_FragColor=vec4(tex.r*(1-sgmask.a)+sgmask.a*sgmask.r,texture.g*(1-sgmask.a)+sgmask.a*sgmask.g,texture.b*(1-sgmask.a)+sgmask.a*sgmask.b,1.0);}";
 var vertexShaderSourceIndex=3;
 var vertexShaderSource = [
 "#define XRATIO 4.0\n"+
@@ -198,6 +203,13 @@ function draw() {
     gl.bindTexture(gl.TEXTURE_2D, textureMask);
 imgMask=document.getElementById("Ximgwavemask");
 	  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imgMask);
+	    
+	      gl.activeTexture(gl.TEXTURE1);
+	
+    gl.bindTexture(gl.TEXTURE_2D, textureSunglasses;
+	    imgSunglasses = document.getElementById("Ximgsunglasses");
+	  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imgSunglasses);
+	    
         gl.clearColor(1.0, 1.0, 1.0, 0.0);
         gl.enable(gl.DEPTH_TEST);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -219,6 +231,8 @@ imgMask=document.getElementById("Ximgwavemask");
 	
         gl.uniform1i(gl.getUniformLocation(shaderProgram, "img"), 0);
         gl.uniform1i(gl.getUniformLocation(shaderProgram, "mask"), 1);
+	    
+        gl.uniform1i(gl.getUniformLocation(shaderProgram, "sunglasses"), 2);
         gl.drawArrays(gl.TRIANGLES, 0, triangles3d.length / 3);
 	
         setTimeout('waveTimer2+=waveTick2;waveTimer +=waveTick;if(waveTimer>=100 ||waveTimer<=0){waveTick*=-1;}' +
@@ -277,6 +291,18 @@ function loadTexture() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 imgMask=document.getElementById("Ximgwavemask");
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imgMask);
+	textureSunglasses = gl.createTexture();
+//    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, textureSunglasses);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+	    imgSunglasses = document.getElementById("Ximgsunglasses");
+	  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imgSunglasses);
+	    
 }
 function loadGeom() {
     if (triangles3d != null) { return; }
@@ -411,6 +437,7 @@ varying lowp vec2 texUV;
         </div>
   </div>
 <div style="visibility:hidden;">
+	<img id="Ximgsunglasses" width="1024" height="1024" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDIwMDEwOTA0Ly9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9UUi8yMDAxL1JFQy1TVkctMjAwMTA5MDQvRFREL3N2ZzEwLmR0ZCI+CjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiB3aWR0aD0iMTAyNHB4IiBoZWlnaHQ9IjEwMjRweCIgdmlld0JveD0iMCAwIDEyODAuMDAwMDAwIDY0MC4wMDAwMDAiCiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0Ij4KPG1ldGFkYXRhPgpDcmVhdGVkIGJ5IHBvdHJhY2UgMS4xNSwgd3JpdHRlbiBieSBQZXRlciBTZWxpbmdlciAyMDAxLTIwMTcKPC9tZXRhZGF0YT4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsNjQwLjAwMDAwMCkgc2NhbGUoMC4xMDAwMDAsLTAuMTAwMDAwKSIKZmlsbD0iIzAwMDAwMCIgc3Ryb2tlPSJub25lIj4KPHBhdGggZD0iTTI5MTAgNTU1NCBjLTIwMSAtMTMgLTM2OSAtMjggLTQ2MCAtNDAgLTg5OCAtMTIzIC0xNTMyIC00NTUgLTE4NTgKLTk3NSAtOTcgLTE1NCAtMTg2IC0zNzcgLTI0MSAtNjA0IGwtMjcgLTExMCAtMTM4IC01IGMtMTM2IC01IC0xMzggLTUgLTE2MgotMzMgLTIzIC0yNyAtMjQgLTMyIC0yNCAtMjA3IGwwIC0xODAgMjkgLTMyIGMyOSAtMzIgMzEgLTMzIDEyOSAtMzYgbDk5IC00IDcKLTE3MSBjMjIgLTU4MyAxOTcgLTEwNzUgNTIyIC0xNDY3IDkyIC0xMTEgMzA2IC0zMTYgNDE0IC0zOTcgMjM2IC0xNzcgNDU2Ci0yODkgNzE1IC0zNjQgMTAyMyAtMjk4IDIwODggMTgxIDMxMDUgMTM5NiA2MzcgNzYxIDkxNyAxNDcwIDgwMyAyMDM3IC01IDI2Ci0yIDMwIDQ4IDUyIDEyMyA1NCAyNjMgNzkgNDM5IDc5IDE5NyAtMSAzOTMgLTQ4IDUxMCAtMTIzIDczIC00NyA3MSAtNDMgNTkKLTE2NSAtMjkgLTI4NSA1OSAtNjUyIDI0MyAtMTAyMCAzMTMgLTYyMyA5ODMgLTEzODkgMTU5OCAtMTgyNSA1ODYgLTQxNSAxMjA0Ci01ODUgMTgwMCAtNDk1IDQ3NSA3MSA4OTEgMjg3IDEyNTUgNjUwIDE5NSAxOTQgMzIyIDM3MCA0MzUgNjAwIDE1NiAzMTkgMjM0CjY0MSAyNDcgMTAyNyBsNiAxODcgMTM5IDMgMTQwIDMgMjkgMzMgMjkgMzIgMCAxODEgMCAxODEgLTI5IDI5IC0yOSAyOSAtMTcxCjAgLTE3MCAwIC0xMCAzOCBjLTUgMjAgLTE3IDY2IC0yNSAxMDIgLTI1IDExMyAtOTQgMzEwIC0xNDYgNDE3IC0yMDggNDM3Ci01NjYgNzM5IC0xMTIxIDk0NiAtMjg1IDEwNyAtNjE0IDE3NCAtMTA3NCAyMTggLTE3MCAxNyAtNzc5IDE3IC05NTAgMSAtMzI3Ci0zMiAtNTYxIC02NSAtNzYyIC0xMDggbC0xMTMgLTI0IC0xODM4IDAgYy0xODA2IDAgLTE4NDAgMCAtMTkzMyAyMCAtMjA5IDQ1Ci00OTEgODUgLTc2OSAxMTAgLTExOCAxMSAtNjUxIDIxIC03NTAgMTR6IG00NTcwIC00MDIgYy0yNDIgLTE2NiAtNDA0IC0zNDQKLTQ5NSAtNTQyIC0xNiAtMzYgLTMwIC02NyAtMzIgLTY5IC0xIC0yIC0zNyAxNCAtODAgMzYgLTE0MCA3MiAtMjcyIDEwNyAtNDU4CjEyMiAtMjE2IDE3IC00NTggLTE5IC02MjcgLTkzIGwtMzYgLTE2IC00MSA3NCBjLTkxIDE2NiAtMjQyIDMzMSAtNDAwIDQzNwotNDQgMzAgLTgwIDU3IC04MSA2MiAwIDQgNTEyIDcgMTEzOCA2IDEwNzMgMCAxMTM2IC0xIDExMTIgLTE3eiIvPgo8L2c+Cjwvc3ZnPgo=" />
 <img id="Ximgwavemask" width="1024" height="1024" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+IAo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHRleHQgeD0iMCIgeT0iODAiIGZvbnQtc2l6ZT0iNjhwdCI+PC90ZXh0Pjwvc3ZnPiA="/>
   </div>
 </body></html>
