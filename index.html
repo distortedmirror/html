@@ -90,7 +90,7 @@ var fragmentShaderSource = "precision mediump float;\n" +
     "varying lowp vec2 waveTimerShade;\n" +
 "void main(void){vec4 tmask=texture2D(mask,texUV);vec4 sgmask=texture2D(sunglasses,texUV);vec4 texture=texture2D(img,texUV);"+
     "vec4 tex=vec4(texture.r-tmask.r,texture.g-tmask.g,texture.b-tmask.b,texture.a-tmask.a);"+
-    "gl_FragColor=vec4(tex.r+sgmask.r,tex.g+sgmask.g,tex.b+sgmask.b,tex.a+sgmask.a);}";
+    "gl_FragColor=vec4(tex.r-sgmask.r,tex.g-sgmask.g,tex.b-sgmask.b,tex.a-sgmask.a);}";
 var vertexShaderSourceIndex=3;
 var vertexShaderSource = [
 "#define XRATIO 4.0\n"+
@@ -184,7 +184,7 @@ var d=new Date();
 var strd=(d.getHours()+':'+ d.getMinutes()+':'+( d.getSeconds()<=9?"0"+d.getSeconds():d.getSeconds()));
 var strsvg=`<?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"> 
-<svg xmlns="http://www.w3.org/2000/svg"><text x="8" y="103" font-size="68pt">`+strd+`</text></svg> `;
+<svg xmlns="http://www.w3.org/2000/svg"><text x="8" y="45px" font-size="36px">`+strd+`</text></svg> `;
 var decoded = unescape(encodeURIComponent(strsvg));
 var base64 = btoa(decoded);
 ximgwavemask.src=`data:image/svg+xml;base64,${base64}`;
