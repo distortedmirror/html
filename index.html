@@ -161,8 +161,8 @@ setInterval(function(){vertexShaderSourceIndex=(vertexShaderSourceIndex+1)%4;fra
     gl.viewport(0, 0, canvas.width, canvas.height);
     imgWave = document.getElementById("videoRendered");
     imgMask = null;
- videoMask=document.getElementById("imgwavemask");
-  canvas = document.createElement("canvas");
+var videoMask=document.getElementById("imgwavemask");
+   canvas = document.createElement("canvas");
   canvas.width = 1024;
     canvas.height = 1024;
     imgMask = new Image();
@@ -265,16 +265,6 @@ function loadTexture() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-imgMask = null;
-videoMask=document.getElementById("imgwavemask");
-var  canvas = document.createElement("canvas");
-  canvas.width = 1024;
-    canvas.height = 1024
-    imgMask = new Image()
-if(videoMask!=null){
-    canvas.getContext('2d').drawImage(videoMask, 0, 0, canvas.width, canvas.height);
-
-    imgMask.src = canvas.toDataURL();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imgMask);
 }
 function loadGeom() {
