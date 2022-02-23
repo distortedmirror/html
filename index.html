@@ -164,12 +164,13 @@ var videoMask=document.getElementById("imgwavemask");
   var canvas = document.createElement("canvas");
   canvas.width = 1024;
     canvas.height = 1024
-
+    imgMask = new Image()
+if(videoMask!=null){
     canvas.getContext('2d').drawImage(videoMask, 0, 0, canvas.width, canvas.height);
 
-    imgMask = new Image()
-    imgMask.src = canvas.toDataURL();
 
+    imgMask.src = canvas.toDataURL();
+}
     loadGeom();
     loadTexture();
     initShaders();
