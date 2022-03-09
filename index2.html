@@ -184,7 +184,7 @@ if(videoMask!=null){
     loadGeom();
     loadTexture();
     initShaders();
-setInterval(function(){
+/*setInterval(function(){
 var ximgwavemask=document.getElementById("Ximgwavemask");
 var d=new Date();
 var strd=(d.getHours()+':'+( d.getMinutes()<=9?"0"+d.getMinutes():d.getMinutes())+':'+( d.getSeconds()<=9?"0"+d.getSeconds():d.getSeconds()));
@@ -195,6 +195,7 @@ var decoded = unescape(encodeURIComponent(strsvg));
 var base64 = btoa(decoded);
 ximgwavemask.src=`data:image/svg+xml;base64,${base64}`;
 },1000);
+*/
 	  draw();
 }
 
