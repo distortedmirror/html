@@ -47,6 +47,7 @@ if(videoMask!=null){
     imgMask.src = canvas.toDataURL();
 }
 canvas = document.getElementById("canvasMain");
+setTimeout(function(){document.getElementById("Ximgwavemask").play();},3333);
 if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({video:true}).
         then(
