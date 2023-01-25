@@ -26,17 +26,18 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1083"
-     inkscape:window-height="725"
+     inkscape:window-width="778"
+     inkscape:window-height="480"
      id="namedview10"
      showgrid="false"
-     inkscape:zoom="0.48144531"
+     inkscape:zoom="0.2421875"
      inkscape:cx="512"
      inkscape:cy="512"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="218"
      inkscape:window-maximized="0"
-     inkscape:current-layer="svg8" />
+     inkscape:current-layer="svg8"
+     inkscape:document-rotation="0" />
   <metadata
      id="metadata2">
 Created by potrace 1.15, written by Peter Selinger 2001-2017
@@ -51,7 +52,7 @@ Created by potrace 1.15, written by Peter Selinger 2001-2017
 </rdf:RDF>
 </metadata>
   <g
-     transform="matrix(0.05122232,0,0,-0.04593555,315.11409,313.92956)"
+     transform="matrix(0.06081126,0,0,-0.05809726,262.31088,274.68236)"
      fill="#0000ff"
      stroke="solid"
      id="g6">
