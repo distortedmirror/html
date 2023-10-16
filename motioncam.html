@@ -186,15 +186,15 @@ if(!force && capCount==0) {return;}
     var svr='localhost';
     if(queryStringParams(window.location.search)["server"]!=undefined) {
 	svr=queryStringParams(window.location.search)["server"];
-    }
+    
     var port='1234';
     if(queryStringParams(window.location.search)["port"]!=undefined) {
 	port=queryStringParams(window.location.search)["port"];
     }
-    xhr.open('POST','/cgi-bin/post.sh',true);
-    xhr.send(btoa(document.documentElement.outerHTML));
+    //xhr.open('POST','/cgi-bin/post.sh',true);
+   // xhr.send(btoa(document.documentElement.outerHTML));
 	    capCount=0;
-	    document.getElementById('divCount').innerHTML=capCount;
+	    capCount;
 	    rangeCap.setAttribute('max',capCount-1);
 	    rangeCap.setAttribute('value',capCount-1);
 	    divCapture.innerHTML='';
@@ -597,6 +597,7 @@ function capture(payload) {
 	img.setAttribute('onmouseenter','videoImageX.style.display="block";videoImageTimestamp.style.display="block";videoImage.src=this.src;videoImageTimestamp.innerHTML=this.getAttribute("title");videoImage.setAttribute("style","display:block;position:fixed;top:0px;height:80%;z-index:100;border:4px gold outset;");videoImage.setAttribute("onclick",\'videoImageX.style.display=\"none\";videoImageTimestamp.style.display=\"none\";this.style.display=\"none\";\');');
 	if(divCapture.childNodes.length==0){	
 	    divCapture.append(img);
+	location.assign(img);
 	}else{
 	    divCapture.insertBefore(img,divCapture.childNodes[0]);
 	}
